@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Travel Navbar</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    nav {
+      background-color: white;
+      padding: 15px 25px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+  
+
+    .nav-container {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .menu-toggle {
+      display: none;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      margin-left: 20px;
+    }
+
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background-color: black;
+      transition: 0.3s;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .nav-links li a {
+      text-decoration: none;
+      color: black;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links li a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background-color: #00aaff;
+      transition: width 0.3s;
+    }
+
+    .nav-links li a:hover::after {
+      width: 100%;
+    }
+
+    .book-btn {
+      background-color: #00aaff;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .book-btn:hover {
+      background-color: #0077cc;
+    }
+
+    /* ========== Mobile View ========== */
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 65px;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        background: #fff;
+        padding: 15px 0;
+        border-top: 1px solid #ccc;
+        animation: slideDown 0.3s ease;
+        z-index: 999;
+      }
+
+      .menu-toggle:checked + .hamburger + .nav-links {
+        display: flex;
+      }
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+
+      <!-- Left: Logo + Heading -->
+      <div class="left">
+        <img src="media/travel-logo.png" alt="Logo" width="50" height="50" />
+        <div class="logo">TravelGo</div>
+      </div>
+
+      <!-- Right: Hamburger + Nav Links -->
+      <div style="display: flex; align-items: center;">
+        <input type="checkbox" id="menu-toggle" class="menu-toggle" />
+        <label for="menu-toggle" class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </label>
+
+        <ul class="nav-links">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Destinations</a></li>
+          <li><a href="#">Tours</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#" class="book-btn">Book Now</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </nav>
+
+</body>
+</html>
