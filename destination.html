@@ -1,0 +1,861 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Destinations - TravelBliss</title>
+    <!-- Tailwind CSS CDN - Best for quick demos -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom font (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+        <link rel="stylesheet" href="nav.css">
+    <style>
+        /* Base styles for a neat look */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* --- Pure CSS Carousel Specific Styles --- */
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Hide radio inputs visually but keep them functional */
+        .carousel-radio {
+            display: none;
+        }
+
+        .carousel-track {
+            display: flex;
+            height: 100%;
+            width: 300%;
+            /* 100% * number of slides (e.g., 3 slides = 300%) */
+            transition: transform 0.8s ease-in-out;
+            /* Smooth transition for sliding */
+        }
+
+        .carousel-item {
+            width: calc(100% / 3);
+            /* Each item takes up 1/3 of the track width */
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .carousel-overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        /* Navigation Buttons (Labels for radio inputs) */
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 1rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            z-index: 20;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-button:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .carousel-button-prev {
+            left: 1.5rem;
+        }
+
+        .carousel-button-next {
+            right: 1.5rem;
+        }
+
+        /* Carousel Indicators (Labels for radio inputs) */
+        .carousel-indicators {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.75rem;
+            z-index: 20;
+        }
+
+        .indicator-dot {
+            width: 0.75rem;
+            height: 0.75rem;
+            background-color: rgba(255, 255, 255, 0.4);
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .indicator-dot:hover {
+            background-color: rgba(255, 255, 255, 0.6);
+            transform: scale(1.1);
+        }
+
+        /* --- Magic: Connect Radio Inputs to Carousel Track Movement --- */
+        #slide1:checked~.carousel-track {
+            transform: translateX(0%);
+        }
+
+        #slide2:checked~.carousel-track {
+            transform: translateX(-33.33333%);
+        }
+
+        /* (100% / 3 slides) * 1 */
+        #slide3:checked~.carousel-track {
+            transform: translateX(-66.66666%);
+        }
+
+        /* (100% / 3 slides) * 2 */
+
+        /* --- Magic: Connect Radio Inputs to Indicator Dots Active State --- */
+        #slide1:checked~.carousel-indicators label[for="slide1"] {
+            background-color: white;
+            transform: scale(1.2);
+        }
+
+        #slide2:checked~.carousel-indicators label[for="slide2"] {
+            background-color: white;
+            transform: scale(1.2);
+        }
+
+        #slide3:checked~.carousel-indicators label[for="slide3"] {
+            background-color: white;
+            transform: scale(1.2);
+        }
+
+        /* Keyframe animations for hero section text (still active on page load) */
+        @keyframes fadeInMoveUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInMoveUp 0.8s ease-out forwards;
+            opacity: 0;
+            /* Hidden by default */
+        }
+
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-400 {
+            animation-delay: 0.4s;
+        }
+
+        /* General Hover Effects for Cards/Images */
+        .card-hover-effect {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .card-hover-effect:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .image-hover-effect {
+            transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+        }
+
+        .image-hover-effect:hover {
+            transform: scale(1.03);
+            filter: brightness(0.9);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800">
+
+        <!-- Navigation -->
+
+    <nav>
+        <div class="nav-container">
+            <div class="left">
+                <img src="media/travel-logo.png" alt="Logo" width="50" height="50" />
+                <div class="logo">TravelGo</div>
+            </div>
+
+            <!-- Hamburger -->
+            <div style="display: flex; align-items: center;">
+                <input type="checkbox" id="menu-toggle" class="menu-toggle" />
+                <label for="menu-toggle" class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </label>
+
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="destination.html">Destinations</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="index.html#Contact-Info">Contact</a></li>
+                    <li><a href="sign-in.html">Sign-in</a></li>
+
+
+                    <li><a href="destination.html" class="book-btn">Book Now</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- Hero Section (Pure CSS Carousel) -->
+    <section id="hero-carousel" class="relative h-screen md:h-[700px] carousel-container">
+        <!-- Hidden Radio Inputs for Carousel Control -->
+        <input type="radio" name="carousel-radio" id="slide1" class="carousel-radio" checked>
+        <input type="radio" name="carousel-radio" id="slide2" class="carousel-radio">
+        <input type="radio" name="carousel-radio" id="slide3" class="carousel-radio">
+
+        <div class="carousel-track h-full">
+            <!-- Slide 1: Paris -->
+            <div class="carousel-item"
+                style="background-image: url('https://www.planetware.com/photos-large/F/france-paris-eiffel-tower.jpg');">
+                <div class="carousel-overlay">
+                    <div class="text-center text-white max-w-4xl mx-auto p-4">
+                        <h1
+                            class="text-5xl md:text-7xl font-extrabold leading-tight mb-6 drop-shadow-xl animate-fade-in-up">
+                            Experience the Romantic Charm of Paris
+                        </h1>
+                        <p class="text-xl md:text-2xl text-gray-200 mb-10 drop-shadow animate-fade-in-up delay-200">
+                            Lose yourself in the city of lights, art, and exquisite cuisine.
+                        </p>
+                        <a href="#packages"
+                            class="inline-block bg-gradient-to-r from-indigo-600 to-purple-700 hover:from-indigo-700 hover:to-purple-800
+                                                   text-white font-bold py-4 px-10 rounded-full shadow-xl
+                                                   transform transition duration-300 ease-in-out hover:scale-105 animate-fade-in-up delay-400">
+                            Explore Packages
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Slide 2: London -->
+            <div class="carousel-item"
+                style="background-image: url('https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2024/09/02/pGTR/GWHdaFnpQc.jpg');">
+                <div class="carousel-overlay">
+                    <div class="text-center text-white max-w-4xl mx-auto p-4">
+                        <h1
+                            class="text-5xl md:text-7xl font-extrabold leading-tight mb-6 drop-shadow-xl animate-fade-in-up">
+                            Discover the Historic Splendor of London
+                        </h1>
+                        <p class="text-xl md:text-2xl text-gray-200 mb-10 drop-shadow animate-fade-in-up delay-200">
+                            From ancient towers to vibrant markets, explore a city rich in history.
+                        </p>
+                        <a href="#packages"
+                            class="inline-block bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700
+                                                   text-white font-bold py-4 px-10 rounded-full shadow-xl
+                                                   transform transition duration-300 ease-in-out hover:scale-105 animate-fade-in-up delay-400">
+                            Discover Tours
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Slide 3: Egypt -->
+            <div class="carousel-item"
+                style="background-image: url('https://www.historyhit.com/app/uploads/bis-images/5182293/shutterstock_2082602524-1920x9999.jpg?x92500');">
+                <div class="carousel-overlay">
+                    <div class="text-center text-white max-w-4xl mx-auto p-4">
+                        <h1
+                            class="text-5xl md:text-7xl font-extrabold leading-tight mb-6 drop-shadow-xl animate-fade-in-up">
+                            Unravel the Mysteries of Ancient Egypt
+                        </h1>
+                        <p class="text-xl md:text-2xl text-gray-200 mb-10 drop-shadow animate-fade-in-up delay-200">
+                            Journey through time amidst pharaohs, pyramids, and timeless deserts.
+                        </p>
+                        <a href="#packages"
+                            class="inline-block bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-yellow-600 hover:to-orange-700
+                                                   text-white font-bold py-4 px-10 rounded-full shadow-xl
+                                                   transform transition duration-300 ease-in-out hover:scale-105 animate-fade-in-up delay-400">
+                            Book History Tours
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Carousel Navigation Buttons (Labels linked to radio inputs) -->
+        <label for="slide3" class="carousel-button carousel-button-prev" aria-label="Previous slide">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+        </label>
+        <label for="slide2" class="carousel-button carousel-button-next" aria-label="Next slide">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+        </label>
+
+        <!-- Carousel Indicators (Labels linked to radio inputs) -->
+        <div class="carousel-indicators">
+            <label for="slide1" class="indicator-dot" data-slide="0"></label>
+            <label for="slide2" class="indicator-dot" data-slide="1"></label>
+            <label for="slide3" class="indicator-dot" data-slide="2"></label>
+        </div>
+    </section>
+
+    <main class="container mx-auto px-6 py-16">
+
+        <!-- Destination Overview Section -->
+        <section id="overview" class="mb-20">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 text-black-000000">
+                Discover the World's Wonders with TravelBliss
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="order-2 md:order-1 p-6 bg-white rounded-xl shadow-2xl">
+                    <p class="text-lg leading-relaxed text-gray-700 mb-6">
+                        TravelBliss takes you on an extraordinary journey across continents. From the romantic streets
+                        of Paris to the historic grandeur of London, the mystical allure of Egypt, and the vibrant
+                        culture of Japan, we curate experiences that linger in your memory.
+                    </p>
+                    <p class="text-lg leading-relaxed text-gray-700 mb-6">
+                        Explore the emerald landscapes of Ireland, relax on the pristine beaches of Thailand, or immerse
+                        yourself in the lively atmosphere of Goa. Every destination offers a unique blend of adventure,
+                        culture, and relaxation tailored just for you.
+                    </p>
+                    <p class="text-lg leading-relaxed text-gray-700">
+                        Whether you dream of ancient ruins, bustling metropolises, tranquil retreats, or thrilling
+                        escapades, TravelBliss is your passport to unforgettable global adventures.
+                    </p>
+                </div>
+                <div class="order-1 md:order-2">
+                    <img src="https://media.istockphoto.com/id/477372378/photo/travel-collage-world-images.jpg?s=612x612&w=0&k=20&c=f58flJv08W5A9NAn2t4XFmd8Z_T2UwNc8dPdK-xkxc8="
+                        alt="Global travel collage"
+                        class="rounded-xl shadow-2xl w-full h-auto object-cover image-hover-effect">
+                </div>
+            </div>
+        </section>
+
+        <!-- Grid Image Gallery Section -->
+        <section id="gallery" class="mb-20">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 text-black-000000">
+                A Glimpse into Global Beauty
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Gallery Item 1: Paris - Eiffel Tower -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover-effect">
+                    <img src="https://media.tacdn.com/media/attractions-splice-spp-674x446/11/ca/4a/23.jpg"
+                        alt="Eiffel Tower, Paris" class="w-full h-56 object-cover image-hover-effect">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-1">Parisian Nights</h3>
+                        <p class="text-sm text-gray-600">The iconic Eiffel Tower illuminating the city of love.</p>
+                    </div>
+                </div>
+                <!-- Gallery Item 2: London - Tower Bridge -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover-effect">
+                    <img src="https://static.toiimg.com/thumb/msid-112313239,width-1070,height-580,resizemode-75/112313239,pt-32,y_pad-40/112313239.jpg"
+                        alt="Tower Bridge, London" class="w-full h-56 object-cover image-hover-effect">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-1">London's Landmarks</h3>
+                        <p class="text-sm text-gray-600">Majestic Tower Bridge over the River Thames.</p>
+                    </div>
+                </div>
+                <!-- Gallery Item 3: Egypt - Pyramids of Giza -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover-effect">
+                    <img src="https://www.touristegypt.com/wp-content/uploads/2023/03/giza-pyramids-cairo-egypt-with-palm-1024x634.jpg"
+                        alt="Pyramids of Giza, Egypt" class="w-full h-56 object-cover image-hover-effect">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-1">Mysteries of Egypt</h3>
+                        <p class="text-sm text-gray-600">The timeless wonder of the Great Pyramids.</p>
+                    </div>
+                </div>
+                <!-- Gallery Item 4: Ireland - Cliffs of Moher -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover-effect">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFYauua8p5s_p6c3Z47YzTADRy_ugQ0oxxGA&s"
+                        alt="Cliffs of Moher, Ireland" class="w-full h-56 object-cover image-hover-effect">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-1">Ireland's Green Coast</h3>
+                        <p class="text-sm text-gray-600">Dramatic Cliffs of Moher meeting the Atlantic.</p>
+                    </div>
+                </div>
+                <!-- Gallery Item 5: Japan - Shibuya Crossing -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover-effect">
+                    <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2b/29/68/4a/caption.jpg?w=900&h=500&s=1"
+                        alt="Shibuya Crossing, Japan" class="w-full h-56 object-cover image-hover-effect">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-1">Vibrant Tokyo</h3>
+                        <p class="text-sm text-gray-600">The bustling energy of Shibuya Crossing.</p>
+                    </div>
+                </div>
+                <!-- Gallery Item 6: Thailand - Phi Phi Islands -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover-effect">
+                    <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/db/7e/ca/caption.jpg?w=600&h=400&s=1"
+                        alt="Phi Phi Islands, Thailand" class="w-full h-56 object-cover image-hover-effect">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-1">Thai Tropical Paradise</h3>
+                        <p class="text-sm text-gray-600">Stunning turquoise waters and limestone karsts.</p>
+                    </div>
+                </div>
+                <!-- Gallery Item 7: Goa - Beach Sunset -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover-effect">
+                    <img src="https://itsgoa.com/wp-content/uploads/2024/11/palolem-beach-1.jpg"
+                        alt="Goa Beach Sunset" class="w-full h-56 object-cover image-hover-effect">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-1">Goan Sunset Vibes</h3>
+                        <p class="text-sm text-gray-600">Relaxing sunsets on the vibrant beaches of Goa.</p>
+                    </div>
+                </div>
+                <!-- Gallery Item 8: General Travel Image (diverse) -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover-effect">
+                    <img src="https://img.etimg.com/thumb/width-1600,height-900,imgsize-71822,resizemode-75,msid-103865626/magazines/panache/world-tourism-day-from-domestic-to-international-destinations-the-indian-traveller-is-going-places.jpg"
+                        alt="World map and travel elements" class="w-full h-56 object-cover image-hover-effect">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-1">Your Next Adventure</h3>
+                        <p class="text-sm text-gray-600">Discover endless possibilities around the globe.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+
+        <!-- Packages Section -->
+        <section id="packages" class="mb-20">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 text-black-000000">
+                Tailored Global Travel Experiences
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Package Card 1: European City Break (Paris, London) -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 card-hover-effect">
+                    <img src="https://cdn.mos.cms.futurecdn.net/bMDhmL45MKvo6bWzGNoSvM.jpg" class="w-full h-60 object-cover object-center image-hover-effect">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-indigo-700 mb-3">Grand European City Escape</h3>
+                        <p class="text-gray-700 mb-5 text-base">
+                            Experience the best of Paris and London – iconic landmarks, world-class museums, and vibrant
+                            city life.
+                        </p>
+                        <div class="flex items-end justify-between mb-5">
+                            <div>
+                                <span class="text-4xl font-extrabold text-gray-900">$2,100</span>
+                                <span class="text-xl text-gray-500">/person</span>
+                            </div>
+                            <span class="text-lg font-medium text-purple-700">7 Days / 6 Nights</span>
+                        </div>
+                        <ul class="text-gray-600 text-sm list-disc list-inside mb-6 space-y-2">
+                            <li>Eiffel Tower & Louvre entry</li>
+                            <li>Big Ben & Buckingham Palace tour</li>
+                            <li>Central city accommodations</li>
+                            <li>Inter-city transport included</li>
+                        </ul>
+                        <button
+                            class="w-full bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-bold py-4 rounded-lg shadow-md
+                                       transition duration-300 ease-in-out transform hover:scale-[1.01] hover:shadow-xl">
+                            Book European Adventure
+                        </button>
+                    </div>
+                </div>
+                <!-- Package Card 2: Ancient Wonders (Egypt, Ireland for ancient history/myth) -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 card-hover-effect">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXqV010BPOj8PnM6s58uJ1lcRoj_sJjDMUS_xIZNgFXnDGKH_TKM1mjJxzcfUsC2hLaro&usqp=CAU"
+                        alt="Egyptian Pyramids and Irish Landscapes"
+                        class="w-full h-60 object-cover object-center image-hover-effect">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-indigo-700 mb-3">Mysteries of Ancient Civilizations</h3>
+                        <p class="text-gray-700 mb-5 text-base">
+                            Uncover ancient secrets from the Egyptian pyramids to Ireland's mystical historical sites.
+                        </p>
+                        <div class="flex items-end justify-between mb-5">
+                            <div>
+                                <span class="text-4xl font-extrabold text-gray-900">$1,950</span>
+                                <span class="text-xl text-gray-500">/person</span>
+                            </div>
+                            <span class="text-lg font-medium text-pink-700">9 Days / 8 Nights</span>
+                        </div>
+                        <ul class="text-gray-600 text-sm list-disc list-inside mb-6 space-y-2">
+                            <li>Guided Giza Pyramid & Sphinx tour</li>
+                            <li>Nile River Cruise segment</li>
+                            <li>Cliffs of Moher & Celtic ruins exploration</li>
+                            <li>Flights between Egypt & Ireland included</li>
+                        </ul>
+                        <button
+                            class="w-full bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-bold py-4 rounded-lg shadow-md
+                                       transition duration-300 ease-in-out transform hover:scale-[1.01] hover:shadow-xl">
+                            Book Ancient Journey
+                        </button>
+                    </div>
+                </div>
+                <!-- Package Card 3: Tropical & Cultural Asia (Japan, Thailand, Goa) -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 card-hover-effect">
+                    <img src="https://www.honeymoonbug.com/blog/wp-content/uploads/2023/07/Bali-Indonesia.jpg"
+                        alt="Thailand Beach and Japan Cityscape"
+                        class="w-full h-60 object-cover object-center image-hover-effect">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-indigo-700 mb-3">Asian Fusion: Culture to Coast</h3>
+                        <p class="text-gray-700 mb-5 text-base">
+                            Experience Japan's urban energy and cultural depth, then unwind on Thailand's stunning
+                            beaches and Goa's lively shores.
+                        </p>
+                        <div class="flex items-end justify-between mb-5">
+                            <div>
+                                <span class="text-4xl font-extrabold text-gray-900">$2,800</span>
+                                <span class="text-xl text-gray-500">/person</span>
+                            </div>
+                            <span class="text-lg font-medium text-cyan-700">12 Days / 11 Nights</span>
+                        </div>
+                        <ul class="text-gray-600 text-sm list-disc list-inside mb-6 space-y-2">
+                            <li>Tokyo & Kyoto city tours</li>
+                            <li>Thai island hopping adventure</li>
+                            <li>Goan beach resort stay & nightlife</li>
+                            <li>All internal flights & transfers</li>
+                        </ul>
+                        <button
+                            class="w-full bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-bold py-4 rounded-lg shadow-md
+                                       transition duration-300 ease-in-out transform hover:scale-[1.01] hover:shadow-xl">
+                            Book Asian Adventure
+                        </button>
+                    </div>
+                </div>
+                <!-- New Package Card 4: Safari Adventure (Africa example) -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 card-hover-effect">
+                    <img src="https://nypost.com/wp-content/uploads/sites/2/2025/06/newspress-collage-o74177fg1-1749508851089.jpg?quality=75&strip=all&1749494494"
+                        alt="African Safari" class="w-full h-60 object-cover object-center image-hover-effect">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-indigo-700 mb-3">Wild African Safari</h3>
+                        <p class="text-gray-700 mb-5 text-base">
+                            Witness the majestic Big Five and vast savannas on an unforgettable wildlife adventure.
+                        </p>
+                        <div class="flex items-end justify-between mb-5">
+                            <div>
+                                <span class="text-4xl font-extrabold text-gray-900">$3,500</span>
+                                <span class="text-xl text-gray-500">/person</span>
+                            </div>
+                            <span class="text-lg font-medium text-amber-700">8 Days / 7 Nights</span>
+                        </div>
+                        <ul class="text-gray-600 text-sm list-disc list-inside mb-6 space-y-2">
+                            <li>Guided game drives</li>
+                            <li>Luxury tented camp stays</li>
+                            <li>Bush dinners & cultural visits</li>
+                            <li>Internal flights to parks</li>
+                        </ul>
+                        <button
+                            class="w-full bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-bold py-4 rounded-lg shadow-md
+                                       transition duration-300 ease-in-out transform hover:scale-[1.01] hover:shadow-xl">
+                            Book Safari
+                        </button>
+                    </div>
+                </div>
+                <!-- New Package Card 5: South American Discovery (Machu Picchu example) -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 card-hover-effect">
+                    <img src="https://res.cloudinary.com/aenetworks/image/upload/c_fill,ar_2,w_3840,h_1920,g_auto/dpr_auto/f_auto/q_auto:eco/v1/gettyimages-1161481402?_a=BAVAZGDX0"
+                        alt="Machu Picchu" class="w-full h-60 object-cover object-center image-hover-effect">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-indigo-700 mb-3">Andean Explorer: Peru</h3>
+                        <p class="text-gray-700 mb-5 text-base">
+                            Trek to the ancient city of Machu Picchu and explore vibrant Peruvian culture.
+                        </p>
+                        <div class="flex items-end justify-between mb-5">
+                            <div>
+                                <span class="text-4xl font-extrabold text-gray-900">$2,400</span>
+                                <span class="text-xl text-gray-500">/person</span>
+                            </div>
+                            <span class="text-lg font-medium text-lime-700">10 Days / 9 Nights</span>
+                        </div>
+                        <ul class="text-gray-600 text-sm list-disc list-inside mb-6 space-y-2">
+                            <li>Guided Machu Picchu tour</li>
+                            <li>Cusco & Sacred Valley exploration</li>
+                            <li>Local market visits & cooking class</li>
+                            <li>All internal transport & meals</li>
+                        </ul>
+                        <button
+                            class="w-full bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-bold py-4 rounded-lg shadow-md
+                                       transition duration-300 ease-in-out transform hover:scale-[1.01] hover:shadow-xl">
+                            Book Peru Trip
+                        </button>
+                    </div>
+                </div>
+                <!-- New Package Card 6: Northern Lights (Iceland/Norway example) -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 card-hover-effect">
+                    <img src="https://www.muchbetteradventures.com/magazine/content/images/2023/12/GettyImages-488508586--1-.jpg"
+                        alt="Northern Lights" class="w-full h-60 object-cover object-center image-hover-effect">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-indigo-700 mb-3">Arctic Aurora Chase</h3>
+                        <p class="text-gray-700 mb-5 text-base">
+                            Witness the breathtaking Northern Lights and explore stunning glacial landscapes.
+                        </p>
+                        <div class="flex items-end justify-between mb-5">
+                            <div>
+                                <span class="text-4xl font-extrabold text-gray-900">$2,900</span>
+                                <span class="text-xl text-gray-500">/person</span>
+                            </div>
+                            <span class="text-lg font-medium text-blue-700">6 Days / 5 Nights</span>
+                        </div>
+                        <ul class="text-gray-600 text-sm list-disc list-inside mb-6 space-y-2">
+                            <li>Guided Aurora Borealis hunts</li>
+                            <li>Blue Lagoon visit (Iceland) or Fjord cruise (Norway)</li>
+                            <li>Glacier hiking or ice cave exploration</li>
+                            <li>Cozy cabin accommodations</li>
+                        </ul>
+                        <button
+                            class="w-full bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-bold py-4 rounded-lg shadow-md
+                                       transition duration-300 ease-in-out transform hover:scale-[1.01] hover:shadow-xl">
+                            Book Arctic Trip
+                        </button>
+                    </div>
+                </div>
+                <!-- New Package Card 7: Coastal Australia -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 card-hover-effect">
+                    <img src="https://static.ffx.io/images/$zoom_0.187%2C$multiply_0.7725%2C$ratio_1.5%2C$width_756%2C$x_70%2C$y_0/t_crop_custom/q_86%2Cf_auto/78249e5eed83bc3a6d56837c60733caddaf7fc2d"
+                        alt="Australian Coastline" class="w-full h-60 object-cover object-center image-hover-effect">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-indigo-700 mb-3">Australian Coastal Wonders</h3>
+                        <p class="text-gray-700 mb-5 text-base">
+                            Explore stunning beaches, vibrant cities, and unique wildlife down under.
+                        </p>
+                        <div class="flex items-end justify-between mb-5">
+                            <div>
+                                <span class="text-4xl font-extrabold text-gray-900">$3,200</span>
+                                <span class="text-xl text-gray-500">/person</span>
+                            </div>
+                            <span class="text-lg font-medium text-orange-700">10 Days / 9 Nights</span>
+                        </div>
+                        <ul class="text-gray-600 text-sm list-disc list-inside mb-6 space-y-2">
+                            <li>Sydney Harbour Bridge climb</li>
+                            <li>Great Barrier Reef snorkeling/diving</li>
+                            <li>Koala & kangaroo encounters</li>
+                            <li>Luxury coastal resort stays</li>
+                        </ul>
+                        <button
+                            class="w-full bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-bold py-4 rounded-lg shadow-md
+                                       transition duration-300 ease-in-out transform hover:scale-[1.01] hover:shadow-xl">
+                            Book Australia
+                        </button>
+                    </div>
+                </div>
+                <!-- New Package Card 8: Canadian Rockies -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 card-hover-effect">
+                    <img src="https://www.adventuresbydisney.com/content/dam/abd/destinations/north-america/canadian-rockies-vacations/abd-north-america-canadian-rockies-slideshow-6-moraine-lake-7x3.jpg"
+                        alt="Canadian Rockies" class="w-full h-60 object-cover object-center image-hover-effect">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-indigo-700 mb-3">Canadian Rockies Adventure</h3>
+                        <p class="text-gray-700 mb-5 text-base">
+                            Explore majestic mountains, turquoise lakes, and abundant wildlife in Western Canada.
+                        </p>
+                        <div class="flex items-end justify-between mb-5">
+                            <div>
+                                <span class="text-4xl font-extrabold text-gray-900">$2,600</span>
+                                <span class="text-xl text-gray-500">/person</span>
+                            </div>
+                            <span class="text-lg font-medium text-red-700">8 Days / 7 Nights</span>
+                        </div>
+                        <ul class="text-gray-600 text-sm list-disc list-inside mb-6 space-y-2">
+                            <li>Guided hikes & scenic drives</li>
+                            <li>Lake Louise & Banff exploration</li>
+                            <li>Wildlife spotting tours</li>
+                            <li>Charming mountain lodge stays</li>
+                        </ul>
+                        <button
+                            class="w-full bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-bold py-4 rounded-lg shadow-md
+                                       transition duration-300 ease-in-out transform hover:scale-[1.01] hover:shadow-xl">
+                            Book Canada
+                        </button>
+                    </div>
+                </div>
+                <!-- New Package Card 9: Brazilian Amazon & Rio -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 card-hover-effect">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf4V1RXmJKY8PmoXNZmQNZ1MS84mU6RALwOQ&s"
+                        alt="Brazilian Amazon Rainforest"
+                        class="w-full h-60 object-cover object-center image-hover-effect">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-indigo-700 mb-3">Brazil: Amazon & Rio Carnival</h3>
+                        <p class="text-gray-700 mb-5 text-base">
+                            Explore the Amazon rainforest, then experience the vibrant energy of Rio de Janeiro.
+                        </p>
+                        <div class="flex items-end justify-between mb-5">
+                            <div>
+                                <span class="text-4xl font-extrabold text-gray-900">$3,000</span>
+                                <span class="text-xl text-gray-500">/person</span>
+                            </div>
+                            <span class="text-lg font-medium text-green-700">10 Days / 9 Nights</span>
+                        </div>
+                        <ul class="text-gray-600 text-sm list-disc list-inside mb-6 space-y-2">
+                            <li>Amazon jungle treks & boat tours</li>
+                            <li>Wildlife spotting & indigenous culture</li>
+                            <li>Rio city tour & Sugarloaf Mountain</li>
+                            <li>Optional Carnival experience (seasonal)</li>
+                        </ul>
+                        <button
+                            class="w-full bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-bold py-4 rounded-lg shadow-md
+                                       transition duration-300 ease-in-out transform hover:scale-[1.01] hover:shadow-xl">
+                            Book Brazil
+                        </button>
+                    </div>
+                </div>
+                
+            </div>
+            <!-- Reviews Section -->
+        <section id="reviews" class="mb-20 bg-indigo-50 py-16 rounded-xl shadow-inner">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 text-black-000000">
+                Hear From Our Happy Global Travelers
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Review Card 1 -->
+                <div class="bg-white rounded-xl shadow-lg p-8 text-center flex flex-col items-center card-hover-effect">
+                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Traveler Jane Doe"
+                        class="w-24 h-24 rounded-full object-cover mb-5 border-4 border-indigo-200 transition duration-300 hover:border-indigo-400">
+                    <p class="text-lg italic text-gray-700 leading-relaxed mb-6">
+                        "My trip to Paris was absolutely magical! The city of lights never disappoints. TravelBliss made
+                        every moment seamless and unforgettable."
+                    </p>
+                    <div class="text-yellow-500 text-3xl mb-4">
+                        &#9733;&#9733;&#9733;&#9733;&#9733; <!-- 5 Stars -->
+                    </div>
+                    <p class="font-semibold text-indigo-700 text-lg">
+                        - Emily Chen, USA
+                    </p>
+                </div>
+                <!-- Review Card 2 -->
+                <div class="bg-white rounded-xl shadow-lg p-8 text-center flex flex-col items-center card-hover-effect">
+                    <img src="https://randomuser.me/api/portraits/men/44.jpg" alt="Traveler Mark Smith"
+                        class="w-24 h-24 rounded-full object-cover mb-5 border-4 border-red-200 transition duration-300 hover:border-red-400">
+                    <p class="text-lg italic text-gray-700 leading-relaxed mb-6">
+                        "The ancient wonders of Egypt were beyond my wildest dreams. So much history to explore, and the
+                        guides were incredibly knowledgeable. Truly amazing!"
+                    </p>
+                    <div class="text-yellow-500 text-3xl mb-4">
+                        &#9733;&#9733;&#9733;&#9733;&#9734; <!-- 4 Stars -->
+                    </div>
+                    <p class="font-semibold text-indigo-700 text-lg">
+                        - Ahmed Khan, UAE
+                    </p>
+                </div>
+                <!-- Review Card 3 -->
+                <div class="bg-white rounded-xl shadow-lg p-8 text-center flex flex-col items-center card-hover-effect">
+                    <img src="https://randomuser.me/api/portraits/women/90.jpg" alt="Traveler Lisa White"
+                        class="w-24 h-24 rounded-full object-cover mb-5 border-4 border-green-200 transition duration-300 hover:border-green-400">
+                    <p class="text-lg italic text-gray-700 leading-relaxed mb-6">
+                        "Thailand's beaches were pure paradise! The perfect blend of relaxation and vibrant local
+                        culture. I left feeling completely refreshed and inspired."
+                    </p>
+                    <div class="text-yellow-500 text-3xl mb-4">
+                        &#9733;&#9733;&#9733;&#9733;&#9733; <!-- 5 Stars -->
+                    </div>
+                    <p class="font-semibold text-indigo-700 text-lg">
+                        - Sarah Johnson, Australia
+                    </p>
+                </div>
+            </div>
+            <div class="text-center mt-12">
+                <a href="#" class="inline-block bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-8 rounded-full shadow-lg
+                                   transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl">
+                    Read All Testimonials
+                </a>
+            </div>
+        </section>
+            <div class="text-center mt-12">
+                <a href="#" class="inline-block bg-gradient-to-r from-purple-600 to-indigo-700 hover:from-purple-700 hover:to-indigo-800
+                                   text-white font-bold py-4 px-10 rounded-full shadow-lg
+                                   transform transition duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
+                    View All Packages
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+        <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-10 pb-6 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 sm:gap-8">
+                <div>
+                    <h3 class="text-lg sm:text-xl font-bold mb-3 sm:mb-4 flex items-center">
+                        <i class="fas fa-plane-departure text-blue-400 mr-2"></i>
+                        TravelGo
+                    </h3>
+                    <p class="text-gray-400 text-sm sm:text-base">Making travel dreams come true since 2025. We
+                        specialize in creating unforgettable experiences around the globe.</p>
+                    <div class="flex mt-3 sm:mt-4 space-x-3 sm:space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white text-sm sm:text-base">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white text-sm sm:text-base">Destinations</a>
+                        </li>
+                        <li><a href="#" class="text-gray-400 hover:text-white text-sm sm:text-base">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white text-sm sm:text-base">Sign-in</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white text-sm sm:text-base">Book Now</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white text-sm sm:text-base">FAQs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white text-sm sm:text-base">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white text-sm sm:text-base">Privacy Policy</a>
+                        </li>
+                        <li><a href="#" class="text-gray-400 hover:text-white text-sm sm:text-base">Terms &
+                                Conditions</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white text-sm sm:text-base">Refund Policy</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div id="#Contact-Info">
+                    <h4 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Contact Info</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center text-sm sm:text-base">
+                            <i class="fas fa-map-marker-alt mr-2 text-blue-400"></i>
+                            123 Travel Street, Suite 100
+                        </li>
+                        <li class="flex items-center text-sm sm:text-base">
+                            <i class="fas fa-phone mr-2 text-blue-400"></i>
+                            +1 (555) 123-4567
+                        </li>
+                        <li class="flex items-center text-sm sm:text-base">
+                            <i class="fas fa-envelope mr-2 text-blue-400"></i>
+                            info@wanderlust.com
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-8 pt-6 text-center text-gray-400 text-sm sm:text-base">
+                <p>&copy; 2023 Wanderlust Travel. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
