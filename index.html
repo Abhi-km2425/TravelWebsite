@@ -33,51 +33,65 @@
         }
 
         /* hero section animation */
-@keyframes zoomFade {
-  0% {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-.animate-zoom-fade {
-  animation: zoomFade 1s ease-out forwards;
-}
+        @keyframes zoomFade {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
 
-@keyframes fadeInText {
-  0% {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.animate-fade-in {
-  animation: fadeInText 1s ease-out forwards;
-}
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
 
-@keyframes buttonPop {
-  0% {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-.animate-button-pop {
-  animation: buttonPop 0.7s ease-out forwards;
-}
+        .animate-zoom-fade {
+            animation: zoomFade 1s ease-out forwards;
+        }
 
-.delay-\[300ms\] { animation-delay: 0.3s; }
-.delay-\[500ms\] { animation-delay: 0.5s; }
-.delay-\[700ms\] { animation-delay: 0.7s; }
+        @keyframes fadeInText {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeInText 1s ease-out forwards;
+        }
+
+        @keyframes buttonPop {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .animate-button-pop {
+            animation: buttonPop 0.7s ease-out forwards;
+        }
+
+        .delay-\[300ms\] {
+            animation-delay: 0.3s;
+        }
+
+        .delay-\[500ms\] {
+            animation-delay: 0.5s;
+        }
+
+        .delay-\[700ms\] {
+            animation-delay: 0.7s;
+        }
 
 
 
@@ -104,7 +118,7 @@
     <nav>
         <div class="nav-container">
             <div class="left">
-                <img src="media/travel-logo.png" alt="Logo" width="50" height="50" />
+                <img src="media/travel-logo2.png" alt="Logo" />
                 <div class="logo">TravelGo</div>
             </div>
 
@@ -133,28 +147,31 @@
     </nav>
 
     <!-- Hero Section -->
-   <section class="hero-bg h-screen flex items-center justify-center text-white pt-16 overflow-hidden">
-    <div class="text-center px-4 animate-zoom-fade opacity-0">
-        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 animate-fade-in delay-[300ms]">
-            Discover Your Next Adventure
-        </h1>
-        <p class="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 max-w-2xl mx-auto animate-fade-in delay-[500ms]">
-            Explore the world's most beautiful places with our expertly curated travel experiences.
-        </p>
-        <div class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 animate-button-pop delay-[700ms]">
-           <a href="#popular-Destinations">
-                <button class="bg-blue-600 hover:bg-white text-black px-4 py-2 sm:px-6 sm:py-3 rounded-md text-base sm:text-lg font-semibold transition duration-300">
-                    Explore Destinations
-                </button>
-           </a>
-           <a href="https://www.youtube.com/" target="_blank">
-                <button class="bg-transparent hover:bg-white hover:text-gray-900 text-white border-2 border-white px-4 py-2 sm:px-6 sm:py-3 rounded-md text-base sm:text-lg font-semibold transition duration-300">
-                    Watch Video <i class="fas fa-play ml-2"></i>
-                </button>
-           </a>
+    <section class="hero-bg h-screen flex items-center justify-center text-white pt-16 overflow-hidden">
+        <div class="text-center px-4 animate-zoom-fade opacity-0">
+            <h1
+                class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 animate-fade-in delay-[300ms]">
+                Discover Your Next Adventure
+            </h1>
+            <p class="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 max-w-2xl mx-auto animate-fade-in delay-[500ms]">
+                Explore the world's most beautiful places with our expertly curated travel experiences.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 animate-button-pop delay-[700ms]">
+                <a href="#popular-Destinations">
+                    <button
+                        class="bg-blue-600 hover:bg-white text-black px-4 py-2 sm:px-6 sm:py-3 rounded-md text-base sm:text-lg font-semibold transition duration-300">
+                        Explore Destinations
+                    </button>
+                </a>
+                <a href="https://www.youtube.com/" target="_blank">
+                    <button
+                        class="bg-transparent hover:bg-white hover:text-gray-900 text-white border-2 border-white px-4 py-2 sm:px-6 sm:py-3 rounded-md text-base sm:text-lg font-semibold transition duration-300">
+                        Watch Video <i class="fas fa-play ml-2"></i>
+                    </button>
+                </a>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <!-- Search Section -->
     <section class="bg-white shadow-xl rounded-lg mx-4 md:mx-auto -mt-20 relative z-20 max-w-5xl p-4 sm:p-6">
@@ -239,11 +256,11 @@
         <!-- button -->
 
         <div class="text-center mt-8 sm:mt-12">
-           <a href="destination.html">
+            <a href="destination.html">
                 <button
                     class="bg-white hover:bg-black 000000 text-blue-600 border border-blue-600 px-4 py-2 sm:px-6 sm:py-3 rounded-md text-base sm:text-lg font-semibold">View
                     All Destinations</button>
-           </a>
+            </a>
         </div>
     </section>
 
@@ -291,11 +308,11 @@
         <!-- button -->
 
         <div class="text-center mt-8 sm:mt-12">
-           <a href="about.html">
+            <a href="about.html">
                 <button
                     class="bg-white hover:bg-black 000000 text-blue-600 border border-blue-600 px-4 py-2 sm:px-6 sm:py-3 rounded-md text-base sm:text-lg font-semibold">Know
                     More </button>
-           </a>
+            </a>
         </div>
 
     </section>
@@ -313,8 +330,7 @@
                 <!-- Repeat testimonial blocks -->
                 <div class="bg-white p-6 sm:p-8 rounded-xl shadow-md w-80 shrink-0">
                     <div class="flex items-center mb-4">
-                        <img src="media/businesswomen.jpg" alt="Sarah J."
-                            class="w-12 h-12 rounded-full">
+                        <img src="media/businesswomen.jpg" alt="Sarah J." class="w-12 h-12 rounded-full">
                         <div class="ml-4 text-left">
                             <h4 class="font-semibold text-base">Sarah Johnson</h4>
                             <div class="flex text-yellow-400 text-sm">
@@ -330,8 +346,7 @@
 
                 <div class="bg-white p-6 sm:p-8 rounded-xl shadow-md w-80 shrink-0">
                     <div class="flex items-center mb-4">
-                        <img src="media/businessman-icon-cartoon.jpg" alt="Michael T."
-                            class="w-12 h-12 rounded-full">
+                        <img src="media/businessman-icon-cartoon.jpg" alt="Michael T." class="w-12 h-12 rounded-full">
                         <div class="ml-4 text-left">
                             <h4 class="font-semibold text-base">Michael Thompson</h4>
                             <div class="flex text-yellow-400 text-sm">
@@ -347,8 +362,7 @@
 
                 <div class="bg-white p-6 sm:p-8 rounded-xl shadow-md w-80 shrink-0">
                     <div class="flex items-center mb-4">
-                        <img src="media/businesswomen.jpg" alt="Emily R."
-                            class="w-12 h-12 rounded-full">
+                        <img src="media/businesswomen.jpg" alt="Emily R." class="w-12 h-12 rounded-full">
                         <div class="ml-4 text-left">
                             <h4 class="font-semibold text-base">Emily Rose</h4>
                             <div class="flex text-yellow-400 text-sm">
@@ -364,8 +378,7 @@
 
                 <div class="bg-white p-6 sm:p-8 rounded-xl shadow-md w-80 shrink-0">
                     <div class="flex items-center mb-4">
-                        <img src="media/businessman-icon-cartoon.jpg" alt="John M."
-                            class="w-12 h-12 rounded-full">
+                        <img src="media/businessman-icon-cartoon.jpg" alt="John M." class="w-12 h-12 rounded-full">
                         <div class="ml-4 text-left">
                             <h4 class="font-semibold text-base">John Miller</h4>
                             <div class="flex text-yellow-400 text-sm">
@@ -401,10 +414,10 @@
         <div class="max-w-7xl mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6 sm:gap-8">
                 <div>
-                    <h3 class="text-lg sm:text-xl font-bold mb-3 sm:mb-4 flex items-center">
-                <a href="index.html"><img src="media/travel-logo.png" alt="Logo" width="50" height="50" /></a>
+     <h3 class="text-lg sm:text-xl font-bold mb-3 sm:mb-4 flex items-center">
+                <a href="index.html"><img src="media/travel-logo2.png" alt="Logo" width="30" height="30" /></a>
                         TravelGo
-                    </h3>
+                    </h3>                   
                     <p class="text-gray-400 text-sm sm:text-base">Making travel dreams come true since 2025. We
                         specialize in creating unforgettable experiences around the globe.</p>
                     <div class="flex mt-3 sm:mt-4 space-x-3 sm:space-x-4">
@@ -418,12 +431,17 @@
                 <div>
                     <h4 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Quick Links</h4>
                     <ul class="space-y-2">
-                        <li><a href="index.html" class="text-gray-400 hover:text-white text-sm sm:text-base">Home</a></li>
-                        <li><a href="destination.html" class="text-gray-400 hover:text-white text-sm sm:text-base">Destinations</a>
+                        <li><a href="index.html" class="text-gray-400 hover:text-white text-sm sm:text-base">Home</a>
                         </li>
-                        <li><a href="about.html" class="text-gray-400 hover:text-white text-sm sm:text-base">About Us</a></li>
-                        <li><a href="sign-in.html" class="text-gray-400 hover:text-white text-sm sm:text-base">Sign-in</a></li>
-                        <li><a href="destination.html#packages" class="text-gray-400 hover:text-white text-sm sm:text-base">Book Now</a></li>
+                        <li><a href="destination.html"
+                                class="text-gray-400 hover:text-white text-sm sm:text-base">Destinations</a>
+                        </li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white text-sm sm:text-base">About
+                                Us</a></li>
+                        <li><a href="sign-in.html"
+                                class="text-gray-400 hover:text-white text-sm sm:text-base">Sign-in</a></li>
+                        <li><a href="destination.html#packages"
+                                class="text-gray-400 hover:text-white text-sm sm:text-base">Book Now</a></li>
                     </ul>
                 </div>
 
@@ -431,7 +449,8 @@
                     <h4 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Support</h4>
                     <ul class="space-y-2">
                         <li><a href="#" class="text-gray-400 hover:text-white text-sm sm:text-base">FAQs</a></li>
-                        <li><a href="#Contact-Info" class="text-gray-400 hover:text-white text-sm sm:text-base">Contact Us</a></li>
+                        <li><a href="#Contact-Info" class="text-gray-400 hover:text-white text-sm sm:text-base">Contact
+                                Us</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-white text-sm sm:text-base">Privacy Policy</a>
                         </li>
                         <li><a href="#" class="text-gray-400 hover:text-white text-sm sm:text-base">Terms &
