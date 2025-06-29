@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Travel Navbar</title>
   <style>
     * {
@@ -23,7 +24,7 @@
       z-index: 1000;
     }
 
-  
+
 
     .nav-container {
       max-width: 1200px;
@@ -32,10 +33,12 @@
       justify-content: space-between;
       align-items: center;
     }
-        .nav-container img{
-       max-width: 50px; /* nav img*/
-  height: auto;
-}
+
+    .nav-container img {
+      max-width: 50px;
+      /* nav img*/
+      height: auto;
+    }
 
     .left {
       display: flex;
@@ -119,17 +122,25 @@
         display: none;
         position: absolute;
         top: 65px;
-        left: 0;
-        width: 100%;
+        right: 0;
+        width: fit-content;
         flex-direction: column;
+        align-items: flex-end;
         background: #fff;
-        padding: 15px 0;
-        border-top: 1px solid #ccc;
+        padding: 15px 20px;
+        border-top: 3px solid #eee;
         animation: slideDown 0.3s ease;
         z-index: 999;
       }
 
-      .menu-toggle:checked + .hamburger + .nav-links {
+      .nav-links li {
+        text-align: right;
+        width: 100%;
+        padding-right: 10px;
+      }
+
+
+      .menu-toggle:checked+.hamburger+.nav-links {
         display: flex;
       }
     }
@@ -139,6 +150,7 @@
         opacity: 0;
         transform: translateY(-10px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -146,6 +158,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <nav>
@@ -179,4 +192,5 @@
   </nav>
 
 </body>
+
 </html>
